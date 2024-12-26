@@ -75,8 +75,8 @@
 
 # next steps:
 # tech choices:
-# 1. poetry for dependency management
-# 2. streamlit for the web app
-# 3. pipenv for the virtual environment
+# 1. poetry for dependency management (done)
+# 2. streamlit for the web app (done)
+# 3. poetry for the virtual environment (done)
 
 # get started with streamlit

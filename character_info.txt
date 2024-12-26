@@ -1,0 +1,6 @@
+name: Cadueces
+race: Elf
+class: Fighter
+level: 3
+background: Folk Hero
+alignment: Chaotic Good
