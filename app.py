@@ -1,6 +1,6 @@
 import streamlit as st
 from character_sheet import CharacterSheet
-from constants import RACES, CLASSES, BACKGROUNDS, ALIGNMENTS
+from constants import RACES, CLASSES, BACKGROUNDS, ALIGNMENTS, RACE_DESCRIPTIONS, CLASS_DESCRIPTIONS, BACKGROUND_DESCRIPTIONS
 
 st.set_page_config(
     page_title="D&D Character Sheet Creator",
@@ -17,19 +17,24 @@ def create_basic_info_section():
     with col1:
         name = st.text_input("Character Name")
         race = st.selectbox("Race", RACES)
+        race_description = RACE_DESCRIPTIONS.get(race, "No description available.")
         char_class = st.selectbox("Class", CLASSES)
-        
+        class_description = CLASS_DESCRIPTIONS.get(char_class, "No description available.")
     with col2:
         level = st.number_input("Level", min_value=1, max_value=20, value=1)
         background = st.selectbox("Background", BACKGROUNDS)
+        background_description = BACKGROUND_DESCRIPTIONS.get(background, "No description available.")
         alignment = st.selectbox("Alignment", ALIGNMENTS)
     
     return {
         "name": name,
         "race": race,
+        "race_description": race_description,
         "class": char_class,
+        "class_description": class_description,
         "level": level,
         "background": background,
+        "background_description": background_description,
         "alignment": alignment
     }
 
