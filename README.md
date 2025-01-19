@@ -10,10 +10,19 @@ poetry run streamlit run app.py
 ```
 
 TODOs:
-- [ ] Add possibility for subclasses
-- [ ] Add possibility for equipment
-- [ ] Add possibility for spells
-- [ ] Add possibility for features
-- [ ] Add possibility for proficiencies
-- [ ] Add possibility for skills
-- [ ] Add possibility for saving throws
+- [ ] play around with database file
+- [ ] read a little more about type annotations
+- [x] change help back to being simple text
+- [ ] add picture of character types
+- [ ] Create proficiency selection system
+- [ ] Design equipment management interface
+- [ ] Add spell system for spellcasting classes
+- [ ] add file saving and loading
+- [ ] add possibility for subclasses
+
+Product ideas:
+- [ ] call chatgpt to generate a backstory based on the character info
+- [ ] call chatgpt to generate a character image based on the character info
+- [ ] ability to save and load multiple character sheets
+- [ ] ability scores should be allocated from a pool of points
+- [ ] apply racial bonuses to ability scores

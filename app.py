@@ -1,14 +1,4 @@
 import streamlit as st
-from character_sheet import CharacterSheet
-from constants import (
-    RACES, 
-    CLASSES, 
-    BACKGROUNDS, 
-    ALIGNMENTS, 
-    RACE_DESCRIPTIONS, 
-    CLASS_DESCRIPTIONS, 
-    BACKGROUND_DESCRIPTIONS
-)
 from database import Database
 
 db = Database()
@@ -29,27 +19,32 @@ def create_basic_info_section() -> dict[str, str]:
         race = st.selectbox(
             "Race",
             db.get_races(),
-            help=RACE_DESCRIPTIONS.get(
-                st.session_state.get(
-                    'race', RACES[0]), {}).get("description", "No description available"
             )
-        )
+        with st.expander("Race Description"):
+            st.write(db.get_race_descriptions_from_race(race))
+            st.write("**Pros:**")
+            pros = db.get_race_pros_from_race(race)
+            for pro in pros:
+                st.write(f"• {pro}")
+            st.write("**Considerations:**")
+            considerations = db.get_race_considerations_from_race(race)
+            for consideration in considerations:
+                st.write(f"• {consideration}")
         char_class = st.selectbox(
             "Class",
-            CLASSES,
-            help=CLASS_DESCRIPTIONS.get(
-                st.session_state.get('class', CLASSES[0]), {}).get("description", "No description available"
-            )
+            db.get_classes(),
         )
+        with st.expander("Class Description"):
+            st.write(db.get_class_descriptions_from_class(char_class))
     with col2:
         level = st.number_input("Level", min_value=1, max_value=20, value=1)
         background = st.selectbox(
             "Background",
-            BACKGROUNDS,
+            db.get_backgrounds(),
         )
         with st.expander("Background Description"):
             st.write(db.get_background_descriptions_from_background(background))
-        alignment = st.selectbox("Alignment", ALIGNMENTS)
+        alignment = st.selectbox("Alignment", db.get_alignments())
     return {
         "name": name,
         "race": race,
@@ -61,59 +56,48 @@ def create_basic_info_section() -> dict[str, str]:
 
 def create_ability_scores_section():
     st.header("Ability Scores")
+
+    # add ability score pool
+    remaining_points = st.empty()  # Placeholder for remaining points display
+    total_points = 27
     
     # Create two columns for ability scores
     col1, col2 = st.columns(2)
     
     ability_scores = {}
+    used_points = 0
     
     # First column of abilities
     with col1:
-        ability_scores["Strength"] = st.number_input(
-            "Strength",
-            min_value=3,
-            max_value=20,
-            value=10,
-            help="Affects melee attacks, athletic checks, and carrying capacity"
-        )
-        ability_scores["Dexterity"] = st.number_input(
-            "Dexterity",
-            min_value=3,
-            max_value=20,
-            value=10,
-            help="Affects AC, ranged attacks, and agility-based skills"
-        )
-        ability_scores["Constitution"] = st.number_input(
-            "Constitution",
-            min_value=3,
-            max_value=20,
-            value=10,
-            help="Affects HP and concentration saves"
-        )
+        for ability in ["Strength", "Dexterity", "Constitution"]:
+            score = st.number_input(
+                ability,
+                min_value=8,  # Standard D&D point buy minimum
+                max_value=15,  # Standard D&D point buy maximum
+                value=8,
+                help=get_ability_help_text(ability)
+            )
+            ability_scores[ability] = score
+            used_points += calculate_point_cost(score)
     
     # Second column of abilities
     with col2:
-        ability_scores["Intelligence"] = st.number_input(
-            "Intelligence",
-            min_value=3,
-            max_value=20,
-            value=10,
-            help="Affects knowledge-based skills and wizard spellcasting"
-        )
-        ability_scores["Wisdom"] = st.number_input(
-            "Wisdom",
-            min_value=3,
-            max_value=20,
-            value=10,
-            help="Affects perception and cleric/druid spellcasting"
-        )
-        ability_scores["Charisma"] = st.number_input(
-            "Charisma",
-            min_value=3,
-            max_value=20,
-            value=10,
-            help="Affects social skills and bard/sorcerer/warlock spellcasting"
-        )
+        for ability in ["Intelligence", "Wisdom", "Charisma"]:
+            score = st.number_input(
+                ability,
+                min_value=8,
+                max_value=15,
+                value=8,
+                help=get_ability_help_text(ability)
+            )
+            ability_scores[ability] = score
+            used_points += calculate_point_cost(score)
+    
+    # Display remaining points
+    points_left = total_points - used_points
+    remaining_points.markdown(f"**Remaining Points: {points_left}** (Total: {total_points})")
+    if points_left < 0:
+        st.error("You have used too many points! Please adjust your ability scores.")
     
     # Display modifiers
     st.subheader("Ability Modifiers")
@@ -122,6 +106,32 @@ def create_ability_scores_section():
         st.text(f"{ability}: {'+' if modifier >= 0 else ''}{modifier}")
     
     return ability_scores
+
+def calculate_point_cost(score: int) -> int:
+    """Calculate the point cost for a given ability score using standard D&D 5e point buy rules."""
+    point_costs = {
+        8: 0,
+        9: 1,
+        10: 2,
+        11: 3,
+        12: 4,
+        13: 5,
+        14: 7,
+        15: 9
+    }
+    return point_costs.get(score, 0)
+
+def get_ability_help_text(ability: str) -> str:
+    """Return help text for each ability score."""
+    help_texts = {
+        "Strength": "Affects melee attacks, athletic checks, and carrying capacity",
+        "Dexterity": "Affects AC, ranged attacks, and agility-based skills",
+        "Constitution": "Affects HP and concentration saves",
+        "Intelligence": "Affects knowledge-based skills and wizard spellcasting",
+        "Wisdom": "Affects perception and cleric/druid spellcasting",
+        "Charisma": "Affects social skills and bard/sorcerer/warlock spellcasting"
+    }
+    return help_texts.get(ability, "")
 
 # Call the function to display the form
 character_info = create_basic_info_section()
@@ -138,20 +148,3 @@ with open("character_info.txt", "w") as f:
         f.write(f"{ability}: {score} ({'+' if modifier >= 0 else ''}{modifier})\n")
 
 st.write("Character info has been written to character_info.txt")
-
-# Next Steps After Basic Setup
-    # play around with database file
-    # read a little more about type annotations
-    # change help back to being simple text
-    # add picture of character types
-    # Create proficiency selection system
-    # Design equipment management interface
-    # Add spell system for spellcasting classes
-    # add file saving and loading
-    # add possibility for subclasses
-
-# Product ideas
-# - call chatgpt to generate a backstory based on the character info
-# - call chatgpt to generate a character image based on the character info
-# - ability to save and load multiple character sheets
-# - ability scores should be allocated from a pool of points
