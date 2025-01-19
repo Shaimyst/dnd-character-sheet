@@ -28,6 +28,17 @@ class CharacterSheet:
         self.features_and_traits = []
         self.spells_and_abilities = []
         self.other_notes = []
+        self.ability_scores = {
+            "Strength": 10,
+            "Dexterity": 10,
+            "Constitution": 10,
+            "Intelligence": 10,
+            "Wisdom": 10,
+            "Charisma": 10
+        }
 
     def __str__(self):
         return f"Character Sheet for {self.name}"
+
+    def get_ability_modifier(self, ability_score):
+        return (ability_score - 10) // 2

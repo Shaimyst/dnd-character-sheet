@@ -1,9 +1,14 @@
 name: 
-race: Dwarf
-race_description: {'description': "Dwarves in D&D possess a knack for mining and a love for their clans and kingdoms, which stretch far into the earth. All dwarves are great for martial classes, though dwarven spellcasters are also common. The subraces in the Player's Handbook include the hill dwarf and the mountain dwarf. Hill dwarves boast a higher Wisdom score and hit points. Mountain dwarves benefit from greater Strength.", 'pros': ['High Constitution (+2) and excellent defensive abilities', 'Dwarven Resilience gives advantage on poison saves and resistance to poison damage', 'Start with many weapon proficiencies including battleaxe and warhammer', 'Darkvision and Stonecunning make them excellent dungeon delvers'], 'considerations': ['No Charisma bonus makes them suboptimal for warlocks and sorcerers', 'Slower movement speed (25 feet)', 'Less nimble due to emphasis on Strength over Dexterity']}
+race: Human
 class: Barbarian
-class_description: {'description': 'A fierce warrior who can enter a battle rage, drawing on primal forces to enhance combat abilities. Barbarians excel at dealing and taking damage, relying on their physical might and instincts.', 'pros': ['Highest hit points of any class', 'Rage ability provides damage resistance and bonus damage', 'Excellent physical abilities and combat skills', 'Simple to play for beginners'], 'considerations': ['Limited use of magic', 'Rage has limited uses per day', 'May struggle in social situations', 'Primarily melee-focused']}
 level: 1
-background: Criminal
-background_description: {'description': 'You have a history of breaking the law and still maintain contacts within the criminal underworld. You might be a reformed thief, a smuggler, or someone who was falsely accused.', 'pros': ['Proficiency in Deception and Stealth', "Proficiency with thieves' tools and a gaming set", 'Criminal Contact feature provides underground connections', 'Street-smart knowledge and survival skills'], 'considerations': ['Past may catch up with you', 'Law enforcement might be suspicious', 'Criminal contacts may expect favors']}
+background: Sage
 alignment: Lawful Good
+
+Ability Scores:
+Strength: 10 (+0)
+Dexterity: 10 (+0)
+Constitution: 10 (+0)
+Intelligence: 10 (+0)
+Wisdom: 10 (+0)
+Charisma: 10 (+0)
