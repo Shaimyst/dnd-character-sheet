@@ -11,7 +11,7 @@ poetry run streamlit run app.py
 
 TODOs:
 - [ ] play around with database file
-- [ ] read a little more about type annotations
+- [x] read a little more about type annotations
 - [x] change help back to being simple text
 - [ ] add picture of character types
 - [ ] Create proficiency selection system

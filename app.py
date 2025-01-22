@@ -1,5 +1,6 @@
 import streamlit as st
 from database import Database
+from typing import Dict, List
 
 db = Database()
 st.set_page_config(
@@ -10,7 +11,12 @@ st.set_page_config(
 
 st.title("D&D Character Sheet Creator 🐉")
 
-def create_basic_info_section() -> dict[str, str]:
+def create_basic_info_section() -> Dict[str, str | int]:
+    """Creates and returns the basic character information section.
+    
+    Returns:
+        Dict[str, str | int]: Dictionary containing character details where values are either strings or integers
+    """
     print("Creating basic info section")
     col1, col2 = st.columns(2)
     
@@ -54,7 +60,12 @@ def create_basic_info_section() -> dict[str, str]:
         "alignment": alignment
     }
 
-def create_ability_scores_section():
+def create_ability_scores_section() -> Dict[str, int]:
+    """Creates and returns the ability scores section.
+    
+    Returns:
+        Dict[str, int]: Dictionary of ability scores where keys are ability names and values are scores
+    """
     st.header("Ability Scores")
 
     # add ability score pool

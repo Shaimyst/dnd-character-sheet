@@ -1,14 +1,14 @@
 name: 
-race: Halfling
-class: Monk
+race: Human
+class: Barbarian
 level: 1
 background: Acolyte
-alignment: True Neutral
+alignment: Lawful Good
 
 Ability Scores:
 Strength: 8 (-1)
-Dexterity: 11 (+0)
-Constitution: 9 (-1)
-Intelligence: 11 (+0)
-Wisdom: 15 (+2)
-Charisma: 14 (+2)
+Dexterity: 12 (+1)
+Constitution: 8 (-1)
+Intelligence: 10 (+0)
+Wisdom: 10 (+0)
+Charisma: 10 (+0)
