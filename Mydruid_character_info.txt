@@ -1,9 +1,9 @@
-name: 
-race: Human
-class: Barbarian
+name: Mydruid
+race: Elf
+class: Druid
 level: 1
-background: Acolyte
-alignment: True Neutral
+background: Folk Hero
+alignment: Neutral Good
 
 Ability Scores:
 Strength: 8 (-1)

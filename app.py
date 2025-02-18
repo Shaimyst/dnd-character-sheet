@@ -21,11 +21,12 @@ def create_basic_info_section() -> Dict[str, str | int]:
     col1, col2 = st.columns(2)
     
     with col1:
-        name = st.text_input("Character Name")
+        name = st.text_input("Character Name", key="name")
         race = st.selectbox(
             "Race",
             db.get_races(),
-            )
+            key="race"
+        )
         with st.expander("Race Description"):
             st.write(db.get_race_descriptions_from_race(race))
             st.write("**Pros:**")
@@ -39,18 +40,26 @@ def create_basic_info_section() -> Dict[str, str | int]:
         char_class = st.selectbox(
             "Class",
             db.get_classes(),
+            key="class"
         )
         with st.expander("Class Description"):
             st.write(db.get_class_descriptions_from_class(char_class))
     with col2:
-        level = st.number_input("Level", min_value=1, max_value=20, value=1)
+        level = st.number_input("Level", min_value=1, max_value=20, value=1, key="level")
         background = st.selectbox(
             "Background",
             db.get_backgrounds(),
+            key="background"
         )
         with st.expander("Background Description"):
             st.write(db.get_background_descriptions_from_background(background))
-        alignment = st.selectbox("Alignment", db.get_alignments())
+        alignment = st.selectbox(
+            "Alignment", 
+            db.get_alignments(),
+            key="alignment"
+        )
+        with st.expander("Alignment Description"):
+            st.write(db.get_alignment_descriptions_from_alignment(alignment))
     return {
         "name": name,
         "race": race,
@@ -86,7 +95,8 @@ def create_ability_scores_section() -> Dict[str, int]:
                 min_value=8,  # Standard D&D point buy minimum
                 max_value=15,  # Standard D&D point buy maximum
                 value=8,
-                help=get_ability_help_text(ability)
+                help=get_ability_help_text(ability),
+                key=f"{ability.lower()}_score"
             )
             ability_scores[ability] = score
             used_points += calculate_point_cost(score)
@@ -99,7 +109,8 @@ def create_ability_scores_section() -> Dict[str, int]:
                 min_value=8,
                 max_value=15,
                 value=8,
-                help=get_ability_help_text(ability)
+                help=get_ability_help_text(ability),
+                key=f"{ability.lower()}_score"
             )
             ability_scores[ability] = score
             used_points += calculate_point_cost(score)
@@ -149,8 +160,8 @@ character_info = create_basic_info_section()
 ability_scores = create_ability_scores_section()
 
 # write a file with the character info
-with open("character_info.txt", "w") as f:
-    print("Writing character info to file")
+with open(f"{character_info['name']}_character_info.txt", "w") as f:
+    print(f"Writing character info to file: {character_info['name']}_character_info.txt")
     for key, value in character_info.items():
         f.write(f"{key}: {value}\n")
     f.write("\nAbility Scores:\n")
@@ -158,4 +169,14 @@ with open("character_info.txt", "w") as f:
         modifier = (score - 10) // 2
         f.write(f"{ability}: {score} ({'+' if modifier >= 0 else ''}{modifier})\n")
 
-st.write("Character info has been written to character_info.txt")
+st.write(f"Character info has been written to {character_info['name']}_character_info.txt")
+
+if st.button("Save Character"):
+    with open(f"{character_info['name']}_character_info.txt", "w") as f:
+        for key, value in character_info.items():
+            f.write(f"{key}: {value}\n")
+        f.write("\nAbility Scores:\n")
+        for ability, score in ability_scores.items():
+            modifier = (score - 10) // 2
+            f.write(f"{ability}: {score} ({'+' if modifier >= 0 else ''}{modifier})\n")
+    st.success("Character saved successfully!")

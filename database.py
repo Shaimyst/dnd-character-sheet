@@ -3,6 +3,7 @@ from constants import (
     CLASSES, 
     BACKGROUNDS, 
     ALIGNMENTS, 
+    ALIGNMENT_DESCRIPTIONS,
     RACE_DESCRIPTIONS, 
     CLASS_DESCRIPTIONS, 
     BACKGROUND_DESCRIPTIONS
@@ -36,3 +37,6 @@ class Database:
     
     def get_race_considerations_from_race(self, race: str):
         return RACE_DESCRIPTIONS.get(race, {}).get("considerations", [])
+
+    def get_alignment_descriptions_from_alignment(self, alignment: str):
+        return ALIGNMENT_DESCRIPTIONS.get(alignment, {}).get("description", "No description available")

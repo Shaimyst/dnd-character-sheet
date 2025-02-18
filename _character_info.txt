@@ -3,7 +3,7 @@ race: Human
 class: Barbarian
 level: 1
 background: Acolyte
-alignment: True Neutral
+alignment: Lawful Good
 
 Ability Scores:
 Strength: 8 (-1)
